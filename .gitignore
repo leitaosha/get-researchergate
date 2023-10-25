@@ -1,0 +1,7 @@
+# 文件夹
+.idea/
+revenv/
+__pycache__/
+# 文件
+*.csv
+test*.py
