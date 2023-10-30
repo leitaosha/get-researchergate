@@ -13,4 +13,8 @@ This is a python script to get researcher's all DOI of articles (include book et
    - Open `config.py` and replace the `Url`. 
 5. Execute python script. `python run main.py`
 
-
+# TODO
+- [ ] Export in xlsx format
+- [ ] More fields
+- [ ] Export based on customized conditions
+- [ ] Multithreading
