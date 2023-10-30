@@ -12,6 +12,10 @@
 #
 # Chrome_Driver_Path = "D:\WebDriver\chromedriver-win64\chromedriver.exe"
 
-#
-Url = 'https://www.researchgate.net/profile/Jun-Ma-13'
+# Replace this url that you want to crawl
+Url = 'https://www.researchgate.net/profile/Leitao-Sha'
+
+# Export format. support for xlsx / md / csv / json
+Format = 'xlsx'
+
 

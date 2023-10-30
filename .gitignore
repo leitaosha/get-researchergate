@@ -4,4 +4,8 @@ revenv/
 __pycache__/
 # 文件
 *.csv
+*.xlsx
+*.json
 test*.py
+/DATA/*
+*.exe

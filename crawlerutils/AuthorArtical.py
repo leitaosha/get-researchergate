@@ -6,7 +6,6 @@
 """
 import random
 import re
-import sys
 import time
 
 from selenium import webdriver
@@ -14,15 +13,107 @@ from selenium.common import NoSuchElementException
 from selenium.webdriver.common.by import By
 from tqdm import tqdm
 
-articleLs = []  # 包含url字典的列表
+from crawlerutils import Regex
+from crawlerutils.Article import Article
+
+articles = [Article(date=12)]
+articles.clear()  # 包含url字典的列表
 authorUrlList = []  # 多余页面url 例如：/2   /3
 
 
-def getTitle(browser: webdriver.chrome):
+class InfoCrawler:
+    """
+    crawl info
+    """
+
+    def __init__(self, browser: webdriver.chrome):
+        self.articles = articles
+        self.browser = browser
+
+    def run(self):
+        """
+            执行函数
+        """
+        # js
+        for item in tqdm(self.articles, desc="请耐心等待...", unit="item", ncols=100):
+            # 格式 window.location.href="url"
+            js = "window.location.href=" + '"' + f'{item.gateUrl}' + '"'
+            self.browser.execute_script(js)
+            time.sleep(0.3 + random.random())
+            # 获取各个字段
+            item.doi = self.getDOI()
+            item.publication = self.getPublication()
+            item.date = self.getPublicationDate()
+            item.firstAuthor = self.getFirstAuthor()
+            item.doiUrl = self.getDoiUrl()
+            item.title = self.getTitle()
+            item.lastAuthor = self.getLastAuthor()
+
+        global articles
+        articles = self.articles
+
+    def getDOI(self):
+        # meta data doi
+        results = Regex.DOI.findall(self.browser.page_source)
+        return results[0] if results else ''
+
+    def getTitle(self):
+        # meta data doi
+        results = Regex.Title.findall(self.browser.page_source)
+        return results[0] if results else ''
+
+    def getFirstAuthor(self):
+        results = Regex.First_Author.findall(self.browser.page_source)
+        return results[0] if results else ''
+
+    def getLastAuthor(self):
+        results = Regex.Last_Author.findall(self.browser.page_source)
+        return results[-1] if results else ''
+    def getDoiUrl(self):
+        results = Regex.DOI_URL.findall(self.browser.page_source)
+        return results[0] if results else ''
+
+    def getPublication(self):
+        publication = ''
+        try:
+            el = self.browser.find_element(By.CLASS_NAME,
+                                           "nova-legacy-e-link.nova-legacy-e-link--color-inherit."
+                                           "nova-legacy-e-link--theme-decorated")
+            publication = el.text
+        except NoSuchElementException:
+            pass
+        return publication
+
+    def getPublicationDate(self):
+        results = Regex.Publication_Date.findall(self.browser.page_source)
+        return results[0] if results else ''
+
+    def clickShowAllAuthor(self):
+        buttonShowAllAuthors = self.browser.find_element(By.XPATH,
+                                                         '//*[@id="lite-page"]/main/section/section[1]/div/div/div[4]/div/span[1]/a')
+        buttonShowAllAuthors.click()
+
+    def judgeFirstAuthor(self, name: str):
+        all_author = str(
+            self.browser.find_element(By.XPATH, '//*[@id="lite-page"]/main/section/section[1]/div/div/div[3]').text)
+        if all_author.split('/n')[0] == name:
+            return True
+        return False
+
+    def authorNumber(self, name: str):
+        all_author = str(
+            self.browser.find_element(By.XPATH, '//*[@id="lite-page"]/main/section/section[1]/div/div/div[3]').text)
+        author_list = all_author.split('/n')
+        if len(all_author) > 0:
+            return f"{author_list.index(name)} / {len(author_list)}"
+        else:
+            return None
+
+
+# 获取单页面每个条目的url和标题
+def getPerPageArticleUrl(browser: webdriver.chrome):
     """
     :param browser: 谷歌浏览器对象
-    :param url: researchGate作者主页链接
-    :return:
     """
     # XPATH空格需要用 . 代替
     lsParentXpath = '//div[@class="nova-legacy-o-stack nova-legacy-o-stack--gutter-xxl nova-legacy-o-stack--spacing-xl nova-legacy-o-stack--show-divider"]'
@@ -36,39 +127,18 @@ def getTitle(browser: webdriver.chrome):
     for i in elementList:
         context = i.find_element(By.CLASS_NAME, titleXpath)
         infoUrl = context.get_attribute('href')
-        title = context.text
-        articleLs.append({"title": title, 'infoUrl': infoUrl, 'doi': ''})
-    return articleLs
+        articles.append(Article(gateUrl=infoUrl))
 
 
-def getDOI(browser: webdriver.chrome):
-    '''
-    :param browser: 谷歌浏览器对象
-    :return:
-    '''
-    # js
-    num = 1
-    for item in tqdm(articleLs, desc="请耐心等待...", unit="item", ncols=100):
-        # 进度条
-        num += 1
-        # 格式 window.location.href="url"
-        js = "window.location.href=" + '"' + f'{item["infoUrl"]}' + '"'
-        browser.execute_script(js)
-        time.sleep(0.5 + random.random())
-        # meta data doi
-        pattern = re.compile(r'<meta property="citation_doi" content="(.*?)">')
-        results = pattern.findall(browser.page_source)
-        if results:
-            item['doi'] = results[0]
-            # 获取作者
-            # TODO 获取作者
-    return articleLs
-
-
+# 获取可能多个页面所有的ulr和标题
 def getAuthorUrl(browser: webdriver.chrome, url: str):
+    """
+    :param browser:
+    :param url: 作者主页url
+    """
     browser.get(url)
     time.sleep(4)
-    getTitle(browser)
+    getPerPageArticleUrl(browser)
     try:
         pageElement = browser.find_element(By.CLASS_NAME,
                                            'nova-legacy-c-button-group.nova-legacy-c-button-group--wrap.nova-legacy-c-button-group--gutter-m.nova-legacy-c-button-group--orientation-horizontal.nova-legacy-c-button-group--width-auto')
@@ -87,39 +157,18 @@ def getAuthorUrl(browser: webdriver.chrome, url: str):
             js = "window.location.href=" + '"' + f'{url}' + '"'
             browser.execute_script(js)
             time.sleep(4)
-            getTitle(browser)
+            getPerPageArticleUrl(browser)
     except NoSuchElementException as e:
         print('仅有一页')
-    print(f"检测到{len(articleLs)}个条目，获取doi中...")
-
-
-def clickShowAllAuthor(chrome: webdriver.chrome):
-    buttonShowAllAuthors = chrome.find_element(By.XPATH,
-                                               '//*[@id="lite-page"]/main/section/section[1]/div/div/div[4]/div/span[1]/a')
-    buttonShowAllAuthors.click()
-
-
-def judgeFirstAuthor(chrome: webdriver.chrome, name: str):
-    all_author = str(chrome.find_element(By.XPATH, '//*[@id="lite-page"]/main/section/section[1]/div/div/div[3]').text)
-    if all_author.split('/n')[0] == name:
-        return True
-    return False
-
-
-def authorNumber(chrome: webdriver.chrome, name: str):
-    all_author = str(chrome.find_element(By.XPATH, '//*[@id="lite-page"]/main/section/section[1]/div/div/div[3]').text)
-    author_list = all_author.split('/n')
-    if len(all_author) > 0:
-        return f"{author_list.index(name)} / {len(author_list)}"
-    else:
-        return None
+    print(f"检测到{len(articles)}个条目，获取信息中...")
 
 
 def main(browser: webdriver.Chrome, url):
+    """
+    :param browser:
+    :param url:
+    """
     print(f"目标网址：{url} 获取信息中...")
     getAuthorUrl(browser, url)
-    return getDOI(browser)
-
-
-if __name__ == '__main__':
-    print(main())
+    InfoCrawler(browser).run()
+    return articles

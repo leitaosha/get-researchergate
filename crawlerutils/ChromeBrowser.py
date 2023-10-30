@@ -31,7 +31,7 @@ class ChromeBrowser:
             print('{:-^50}'.format('浏览器已关闭！'))
 
     def __enter__(self):
-        print("进入浏览器")
+        print("进入浏览器...")
         if not self.__BROWSER_HEAD:
             self.__options.add_argument("--headless")
             self.__options.add_argument(
@@ -46,6 +46,7 @@ class ChromeBrowser:
         if not self.__BROWSER_CSS:
             prefs['permissions.default.stylesheet'] = 2
         self.__options.add_experimental_option("prefs", prefs)
+        print("初始化完毕！！！")
 
     @property
     def Browser(self):
