@@ -9,12 +9,7 @@ from datetime import datetime
 import pandas as pd
 import config
 
-
-outPath = config.rootPath + "\\DATA\\"
-
-FileName = f"{outPath}{config.Url.split('/')[-1]} {datetime.now().strftime('%Y-%m-%d %H-%M-%S')}"
-
-
+FileName = f"{config.ExportPath}{config.Url.split('/')[-1]} {datetime.now().strftime('%Y-%m-%d %H-%M-%S')}"
 
 
 # CSV
