@@ -9,3 +9,5 @@ __pycache__/
 test*.py
 /DATA/*
 *.exe
+chrome/
+chromedriver/

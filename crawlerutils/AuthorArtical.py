@@ -39,7 +39,7 @@ class InfoCrawler:
             # 格式 window.location.href="url"
             js = "window.location.href=" + '"' + f'{item.gateUrl}' + '"'
             self.browser.execute_script(js)
-            time.sleep(0.3 + random.random())
+            time.sleep(0.2 + random.random())
             # 获取各个字段
             item.doi = self.getDOI()
             item.publication = self.getPublication()
@@ -69,20 +69,14 @@ class InfoCrawler:
     def getLastAuthor(self):
         results = Regex.Last_Author.findall(self.browser.page_source)
         return results[-1] if results else ''
+
     def getDoiUrl(self):
         results = Regex.DOI_URL.findall(self.browser.page_source)
         return results[0] if results else ''
 
     def getPublication(self):
-        publication = ''
-        try:
-            el = self.browser.find_element(By.CLASS_NAME,
-                                           "nova-legacy-e-link.nova-legacy-e-link--color-inherit."
-                                           "nova-legacy-e-link--theme-decorated")
-            publication = el.text
-        except NoSuchElementException:
-            pass
-        return publication
+        results = Regex.Publication.findall(self.browser.page_source)
+        return results[0] if results else ''
 
     def getPublicationDate(self):
         results = Regex.Publication_Date.findall(self.browser.page_source)
@@ -92,13 +86,6 @@ class InfoCrawler:
         buttonShowAllAuthors = self.browser.find_element(By.XPATH,
                                                          '//*[@id="lite-page"]/main/section/section[1]/div/div/div[4]/div/span[1]/a')
         buttonShowAllAuthors.click()
-
-    def judgeFirstAuthor(self, name: str):
-        all_author = str(
-            self.browser.find_element(By.XPATH, '//*[@id="lite-page"]/main/section/section[1]/div/div/div[3]').text)
-        if all_author.split('/n')[0] == name:
-            return True
-        return False
 
     def authorNumber(self, name: str):
         all_author = str(

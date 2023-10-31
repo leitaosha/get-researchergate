@@ -6,7 +6,7 @@
 """
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-
+from selenium.webdriver.chrome.service import Service
 import config
 
 
@@ -21,7 +21,8 @@ class ChromeBrowser:
         # 浏览器对象
         self.__BROWSER = None
         # 浏览器路径
-        # self.__options.binary_location = config.Chrome_Binary_Location
+        self.__options.binary_location = config.Chrome_Binary_Location
+        self.service = Service(executable_path=config.Chrome_Driver_Path)
 
     def __exit__(self, exc_type, exc_val, exc_tb):
         if self.__BROWSER is None:
@@ -50,5 +51,5 @@ class ChromeBrowser:
 
     @property
     def Browser(self):
-        self.__BROWSER = webdriver.Chrome(self.__options)
+        self.__BROWSER = webdriver.Chrome(service=self.service, options=self.__options)
         return self.__BROWSER

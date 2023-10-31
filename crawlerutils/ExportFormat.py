@@ -9,8 +9,8 @@ from datetime import datetime
 import pandas as pd
 import config
 
-ProjectPath = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
-outPath = ProjectPath + "\\DATA\\"
+
+outPath = config.rootPath + "\\DATA\\"
 
 FileName = f"{outPath}{config.Url.split('/')[-1]} {datetime.now().strftime('%Y-%m-%d %H-%M-%S')}"
 

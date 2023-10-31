@@ -7,9 +7,15 @@
 import re
 
 DOI = re.compile(r'<meta property="citation_doi" content="(.*?)">')
+
 Publication_Date = re.compile(r'<meta property="citation_publication_date" content="(.*?)">')
-Publication = re.compile(r'<meta property="citation_journal_title" content="(.*?)s">')
+
+Publication = re.compile(r'<meta property="citation_journal_title" content="(.*?)">')
+
 First_Author = re.compile(r'<meta property="citation_author" content="(.*?)">')
+
 DOI_URL = re.compile(r'<meta property="DC.identifier" content="(.*?)">')
+
 Last_Author = re.compile(r'<meta property="citation_author" content="(.*?)">')
+
 Title = re.compile(r'<meta property="citation_title" content="(.*?)">')
