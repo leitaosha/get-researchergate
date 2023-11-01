@@ -12,7 +12,6 @@ Url = 'https://www.researchgate.net/profile/Leitao-Sha'
 # Export format. support for xlsx / md / csv / json
 Format = 'xlsx'
 
-
 # ROOT PATH
 rootPath = os.path.dirname(os.path.realpath(__file__))
 
@@ -24,3 +23,9 @@ Chrome_Driver_Path = rootPath + r"\chromedriver\chromedriver.exe"
 
 # export path
 ExportPath = rootPath + r"\\DATA\\"
+
+# Data Clean
+Field = {
+    'publication': ['SSRN Electronic Journal'],
+    'doi': [],
+}

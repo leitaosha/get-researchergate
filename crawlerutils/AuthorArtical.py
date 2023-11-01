@@ -8,6 +8,7 @@ import random
 import re
 import time
 
+import pandas as pd
 from selenium import webdriver
 from selenium.common import NoSuchElementException
 from selenium.webdriver.common.by import By
@@ -16,7 +17,7 @@ from tqdm import tqdm
 from crawlerutils import Regex
 from crawlerutils.Article import Article
 
-articles = [Article(date=12)]
+articles = [Article()]
 articles.clear()  # 包含url字典的列表
 authorUrlList = []  # 多余页面url 例如：/2   /3
 
@@ -154,6 +155,7 @@ def main(browser: webdriver.Chrome, url):
     """
     :param browser:
     :param url:
+    :return
     """
     print(f"目标网址：{url} 获取信息中...")
     getAuthorUrl(browser, url)

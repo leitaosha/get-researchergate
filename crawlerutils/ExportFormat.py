@@ -13,42 +13,34 @@ FileName = f"{config.ExportPath}{config.Url.split('/')[-1]} {datetime.now().strf
 
 
 # CSV
-def export_to_csv(articles):
+def export_to_csv(articles:pd.DataFrame):
     """
     :param articles:
     """
-    data = [vars(each) for each in articles]
-    df = pd.DataFrame(data)
-    df.to_csv(f"{FileName}.csv", index=False)
+    articles.to_csv(f"{FileName}.csv", index=False)
 
 
 # XLSX
-def export_to_xlsx(articles):
+def export_to_xlsx(articles:pd.DataFrame):
     """
     :param articles:
     """
-    data = [vars(each) for each in articles]
-    df = pd.DataFrame(data)
-    df.to_excel(f"{FileName}.xlsx", index=False)
+    articles.to_excel(f"{FileName}.xlsx", index=False)
 
 
 # JSON
-def export_to_json(articles):
+def export_to_json(articles:pd.DataFrame):
     """
     :param articles:
     """
-    data = [vars(each) for each in articles]
-    df = pd.DataFrame(data)
-    df.to_json(f"{FileName}.json")
+    articles.to_json(f"{FileName}.json")
 
 
-def export_to_markdown(articles):
+def export_to_markdown(articles:pd.DataFrame):
     """
     :param articles:
     """
-    data = [vars(each) for each in articles]
-    df = pd.DataFrame(data)
-    df.to_markdown(f"{FileName}.md")
+    articles.to_markdown(f"{FileName}.md")
 
 
 # 字符和函数的映射关系
