@@ -15,6 +15,9 @@ Format = 'xlsx'
 # ROOT PATH
 rootPath = os.path.dirname(os.path.realpath(__file__))
 
+# Chrome Option
+isAutoChromeDriver = False
+
 # chrome.exe
 Chrome_Binary_Location = rootPath + r"\chrome\chrome.exe"
 
@@ -25,7 +28,10 @@ Chrome_Driver_Path = rootPath + r"\chromedriver\chromedriver.exe"
 ExportPath = rootPath + r"\\DATA\\"
 
 # Data Clean
-Field = {
-    'publication': ['SSRN Electronic Journal'],
+isDataClean = True
+
+CleanField = {
+    'publication': ['SSRN Electronic Journal', ''],
+    # exclude some useless data, such as ["SSRN Electronic Journal", "..."]
     'doi': [],
 }

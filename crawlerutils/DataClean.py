@@ -13,12 +13,12 @@ registerFunc = Register()
 
 @registerFunc
 def publicationFilter(data: pd.DataFrame):
-    return data[~data['publication'].isin(config.Field['publication'])]
+    return data[~data['publication'].isin(config.CleanField['publication'])]
 
 
 @registerFunc
 def doiFilter(data: pd.DataFrame):
-    return data[~data['doi'].isin(config.Field['doi'])]
+    return data[~data['doi'].isin(config.CleanField['doi'])]
 
 
 def clean_data(df: pd.DataFrame):

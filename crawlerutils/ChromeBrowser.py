@@ -8,7 +8,7 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
 import config
-
+from webdriver_manager.chrome import ChromeDriverManager
 
 class ChromeBrowser:
 
@@ -21,8 +21,12 @@ class ChromeBrowser:
         # 浏览器对象
         self.__BROWSER = None
         # 浏览器路径
-        self.__options.binary_location = config.Chrome_Binary_Location
-        self.service = Service(executable_path=config.Chrome_Driver_Path)
+        if config.isAutoChromeDriver:
+            self.service = Service(ChromeDriverManager().install())
+        else:
+            self.__options.binary_location = config.Chrome_Binary_Location
+            self.service = Service(config.Chrome_Driver_Path)
+
 
     def __exit__(self, exc_type, exc_val, exc_tb):
         if self.__BROWSER is None:

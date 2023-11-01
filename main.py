@@ -33,7 +33,8 @@ if __name__ == '__main__':
     # 转为pd.DataFrame
     articles = pd.DataFrame([vars(each) for each in articles])
     # 数据清洗
-    articles = clean_data(articles)
+    if config.CleanField:
+        articles = clean_data(articles)
     # 信息导出
     export.export(articles)
     # 信息提示
