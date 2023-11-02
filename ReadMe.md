@@ -1,6 +1,8 @@
 # Introduction
 
-This is a python script to get researcher's all DOI of articles (include book etc.) from [researchgate](https://www.researchgate.net/)
+**If you like this project, please give it a Star.**
+
+This is a python script that gets all the article meta information (include doi, title, publication etc.) of the author from [researchgate](https://www.researchgate.net/). 
 
 # How to use?
 
@@ -35,5 +37,5 @@ This is a python script to get researcher's all DOI of articles (include book et
 # TODO
 - [x] Export in xlsx format
 - [x] More fields
-- [ ] Export based on customized conditions
+- [x] Clean the useless data
 - [ ] Multithreading
