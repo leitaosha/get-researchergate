@@ -11,3 +11,4 @@ test*.py
 *.exe
 chrome/*
 chromedriver/*
+!.gitignore
