@@ -1,8 +1,13 @@
 # Introduction
+[![Using Get Researchgate](https://img.shields.io/badge/Using-Get%20Researchergate-blue?style=flat-round&logo=github)](https://github.com/leitaosha/get-researchergate)
+[![GitHub Repo stars](https://img.shields.io/github/stars/leitaosha/get-researchergate?label=⭐get-researchergate)](https://github.com/leitaosha/get-researchergate)
+[![License](https://img.shields.io/github/license/leitaosha/get-researchergate)](https://github.com/leitaosha/get-researchergate/LICENSE)
+
+[//]: # (![Downloads latest release]&#40;https://img.shields.io/github/downloads/leitaosha/get-researchergate/total?color=yellow&#41;)
 
 **If you like this project, please give it a Star.**
 
-This is a python script that gets all the article meta information (include doi, title, publication etc.) of the author from [researchgate](https://www.researchgate.net/). 
+This is a python script that gets all the article meta information (include doi, title, publication etc.) of the author from [researchgate](https://www.researchgate.net/).
 
 # How to use?
 
