@@ -7,7 +7,7 @@
 
 **If you like this project, please give it a ⭐Star.**
 
-This is a python script that gets all the article meta information (include doi, title, publication etc.) of the author from [researchgate](https://www.researchgate.net/).
+This is a python script that gets all the article meta information (include doi, title, publication etc.) of the author from [researchgate](https://www.researchgate.net/) for learning and communication.
 
 # How to use?
 
