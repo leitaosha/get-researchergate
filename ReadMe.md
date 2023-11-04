@@ -9,6 +9,8 @@
 
 This is a python script that gets all the article meta information (include doi, title, publication etc.) of the author from [researchgate](https://www.researchgate.net/) for learning and communication.
 
+If you want to import all paper of specific author to your literature management tools(such as [zotero](https://www.zotero.org/)), this scrip must be suitable for you. You can get doi or BibTex file easily from researchgate.
+
 # How to use?
 
 1. Clone this repository to your computer.
