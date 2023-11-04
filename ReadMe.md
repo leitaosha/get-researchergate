@@ -45,4 +45,4 @@ This is a python script that gets all the article meta information (include doi,
 - [x] More fields
 - [x] Clean the useless data
 - [ ] Multithreading
-- [ ] Export in bib format
+- [x] Export in bib format

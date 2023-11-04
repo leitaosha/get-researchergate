@@ -9,8 +9,8 @@ import os
 # Replace this url that you want to crawl
 Url = 'https://www.researchgate.net/profile/Leitao-Sha'
 
-# Export format. support for xlsx / md / csv / json
-Format = 'xlsx'
+# Export format. support for xlsx / md / csv / json / bibtex
+Format = 'bibtex'
 
 # ROOT PATH
 rootPath = os.path.dirname(os.path.realpath(__file__))
