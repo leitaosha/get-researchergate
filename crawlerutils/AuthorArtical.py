@@ -40,7 +40,6 @@ class InfoCrawler:
             # 格式 window.location.href="url"
             js = "window.location.href=" + '"' + f'{item.gateUrl}' + '"'
             self.browser.execute_script(js)
-            time.sleep(0.2 + random.random())
             # 获取各个字段
             item.doi = self.getDOI()
             item.publication = self.getPublication()
